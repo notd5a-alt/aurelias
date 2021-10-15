@@ -3,65 +3,61 @@ package main
 import (
 	"fmt"
 	"os"
+	"strconv"
+	"time"
 
 	"github.com/notd5a-alt/aurelias/port"
+	"github.com/pterm/pterm"
 )
+
+const second = time.Second
 
 func Init() int { // Prints inital ui etc for selecting modes etc.
 	// ui below
 
-	asciiArt :=
-		`
-		  _             _                  _           _            _              _          _                  _        
-        / /\          /\_\               /\ \        /\ \         _\ \           /\ \       / /\               / /\      
-       / /  \        / / /         _    /  \ \      /  \ \       /\__ \          \ \ \     / /  \             / /  \     
-      / / /\ \       \ \ \__      /\_\ / /\ \ \    / /\ \ \     / /_ \_\         /\ \_\   / / /\ \           / / /\ \__  
-     / / /\ \ \       \ \___\    / / // / /\ \_\  / / /\ \_\   / / /\/_/        / /\/_/  / / /\ \ \         / / /\ \___\ 
-    / / /  \ \ \       \__  /   / / // / /_/ / / / /_/_ \/_/  / / /            / / /    / / /  \ \ \        \ \ \ \/___/ 
-   / / /___/ /\ \      / / /   / / // / /__\/ / / /____/\    / / /            / / /    / / /___/ /\ \        \ \ \       
-  / / /_____/ /\ \    / / /   / / // / /_____/ / /\____\/   / / / ____       / / /    / / /_____/ /\ \   _    \ \ \      
- / /_________/\ \ \  / / /___/ / // / /\ \ \  / / /______  / /_/_/ ___/\ ___/ / /__  / /_________/\ \ \ /_/\__/ / /      
-/ / /_       __\ \_\/ / /____\/ // / /  \ \ \/ / /_______\/_______/\__\//\__\/_/___\/ / /_       __\ \_\\ \/___/ /       
-\_\___\     /____/_/\/_________/ \/_/    \_\/\/__________/\_______\/    \/_________/\_\___\     /____/_/ \_____\/              
-		`
+	pterm.DefaultBigText.WithLetters(
+		pterm.NewLettersFromStringWithStyle("A", pterm.NewStyle(pterm.FgLightCyan)),
+		pterm.NewLettersFromStringWithStyle("URELIAS", pterm.NewStyle(pterm.FgLightMagenta))).
+		Render()
+	pterm.DefaultHeader.WithBackgroundStyle(pterm.NewStyle(pterm.BgLightBlue)).WithMargin(10).Println(
+		"A Simple CLI Networking tool")
 
-	asciiArt2 :=
-		`
-		  _            _        _          _          _            _             _        
-        /\ \         /\ \     /\ \       /\ \       /\ \         /\ \     _    / /\      
-       /  \ \       /  \ \    \_\ \      \ \ \     /  \ \       /  \ \   /\_\ / /  \     
-      / /\ \ \     / /\ \ \   /\__ \     /\ \_\   / /\ \ \     / /\ \ \_/ / // / /\ \__  
-     / / /\ \ \   / / /\ \_\ / /_ \ \   / /\/_/  / / /\ \ \   / / /\ \___/ // / /\ \___\ 
-    / / /  \ \_\ / / /_/ / // / /\ \ \ / / /    / / /  \ \_\ / / /  \/____/ \ \ \ \/___/ 
-   / / /   / / // / /__\/ // / /  \/_// / /    / / /   / / // / /    / / /   \ \ \       
-  / / /   / / // / /_____// / /      / / /    / / /   / / // / /    / / /_    \ \ \      
- / / /___/ / // / /      / / /   ___/ / /__  / / /___/ / // / /    / / //_/\__/ / /      
-/ / /____\/ // / /      /_/ /   /\__\/_/___\/ / /____\/ // / /    / / / \ \/___/ /       
-\/_________/ \/_/       \_\/    \/_________/\/_________/ \/_/     \/_/   \_____\/       
-	`
+	pterm.Info.Println("This animation was generated with the latest version of PTerm!" +
+		"\nPTerm works on nearly every terminal and operating system." +
+		"\nIt's super easy to use!" +
+		"\nIf you want, you can customize everything :)" +
+		"\nThis program was updated at: " + pterm.Green(time.Now().Format("02 Jan 2006 - 15:04:05 MST")))
+	pterm.Println()
 
-	fmt.Println("Thanks for using")
-	fmt.Println()
+	introSpinner, _ := pterm.DefaultSpinner.WithRemoveWhenDone(true).Start("Waiting for 5 seconds...")
+	time.Sleep(second)
+	for i := 5; i > 0; i-- {
+		if i > 1 {
+			introSpinner.UpdateText("Waiting for " + strconv.Itoa(i) + " seconds...")
+		} else {
+			introSpinner.UpdateText("Waiting for " + strconv.Itoa(i) + " second...")
+		}
+		time.Sleep(second)
+	}
+	introSpinner.Stop()
 
-	fmt.Println(asciiArt)
-	fmt.Printf("\n\n")
-	fmt.Println("A Simple networking tool written in GoLang")
-	fmt.Println()
-
-	fmt.Println(asciiArt2)
-	fmt.Printf("\n\n")
-	fmt.Println("Scan Mode: ")
-	fmt.Println("0. Exit Program")
-	fmt.Println("1. Lower Scan UDP")
-	fmt.Println("2. Lower Scan TCP")
-	fmt.Println("3. UDP & TCP")
-	fmt.Println("4. Wide Scan UDP")
-	fmt.Println("5. Wide Scan TCP")
-	fmt.Println("6. Wide Scan UDP & TCP")
-	fmt.Println("7. Full Scan UDP")
-	fmt.Println("8. Full Scan TCP")
-	fmt.Println("9. Full Scan UDP & TCP")
-	fmt.Print("Your Selection === ")
+	pterm.DefaultBulletList.WithItems([]pterm.BulletListItem{
+		{Level: 0, Text: "0: Exit Program"},
+		{Level: 0, Text: "Lower Ranged Scans, Ports: 0 -> 1024"},
+		{Level: 1, Text: "1: TCP"},
+		{Level: 1, Text: "2: UDP"},
+		{Level: 1, Text: "3: TCP & UDP"},
+		{Level: 0, Text: "Upper Ranged Scans, Ports: 1025 -> 49152"},
+		{Level: 1, Text: "4: TCP"},
+		{Level: 1, Text: "5: UDP"},
+		{Level: 1, Text: "6: TCP & UDP"},
+		{Level: 0, Text: "Full Range Scans, Ports: 0 -> 49152"},
+		{Level: 1, Text: "7: TCP"},
+		{Level: 1, Text: "8: UDP"},
+		{Level: 1, Text: "9: TCP & UDP"},
+	}).Render()
+	pterm.DefaultSection.Println("Your Selection!")
+	fmt.Print("= ")
 	var input int
 	fmt.Scanln(&input)
 
@@ -70,63 +66,65 @@ func Init() int { // Prints inital ui etc for selecting modes etc.
 }
 
 func PrettifyData(state bool, address string) string {
-	return fmt.Sprintf("%v === %v\t\t", address, state)
+	return fmt.Sprintf("----------\t\t%v === %v\t\t", address, state)
 }
 
 func PrintScannedPorts(data *[]port.ScanResult) {
-	var counter int
-
-	for _, d := range *data {
-		fmt.Print(PrettifyData(d.State, d.Address))
-
-		if counter%4 == 0 { // prints 4 pieces of data tabbed
-			fmt.Println()
+	d := pterm.TableData{{"Address", "State"}}
+	for _, dd := range *data {
+		if dd.State {
+			d = append(d, []string{dd.Address, pterm.LightGreen("Pass")})
+		} else {
+			d = append(d, []string{pterm.LightRed(dd.Address), pterm.LightRed("Fail")})
 		}
-
-		counter++
 	}
+	pterm.DefaultTable.WithHasHeader().WithData(d).Render()
 }
 
-func main() { // TODO: Clean up main function
-	res := Init() // any initial print functions, ui, etc
+func main() {
 
 	var scanResult []port.ScanResult
 	var x bool = true
 
 	for x {
 
+		res := Init() // any initial print functions, ui, etc
+
 		switch res {
 		case 0:
 			x = false
 			os.Exit(0)
 		case 1:
-			scanResult = port.TCP1024Scan()
+			scanResult = port.TCPLScan()
 			x = false
 		case 2:
-			scanResult = port.UDP1024Scan()
+			scanResult = port.UDPLScan()
 			x = false
 		case 3:
 			x = false
-			scanResult = append(port.UDP1024Scan(), port.TCP1024Scan()...)
+			scanResult = append(port.TCPLScan(), port.UDPLScan()...)
 		case 4:
-			scanResult = port.UDP49152Scan()
+			x = false
+			scanResult = port.TCPWScan()
 		case 5:
-			scanResult = port.TCP49152Scan()
+			x = false
+			scanResult = port.UDPWScan()
 		case 6:
-			scanResult = append(port.UDP49152Scan(), port.TCP49152Scan()...)
+			x = false
+			scanResult = append(port.TCPWScan(), port.UDPWScan()...)
 		case 7:
-			scanResult = append(port.UDP1024Scan(), port.UDP49152Scan()...)
+			x = false
+			scanResult = port.TCPFullScan()
 		case 8:
-			scanResult = append(port.TCP1024Scan(), port.TCP49152Scan()...)
+			x = false
+			scanResult = port.UDPFullScan()
 		case 9:
-			scanResult = append(port.UDP1024Scan(), port.UDP49152Scan()...)
-			scanResult = append(scanResult, port.TCP1024Scan()...)
-			scanResult = append(scanResult, port.TCP49152Scan()...)
+			x = false
+			scanResult = append(port.TCPFullScan(), port.UDPFullScan()...)
 		default:
 			fmt.Println("Did not pick from the available choices, please pick again")
 			fmt.Printf("\n\n\n\n")
 		}
-
 	}
 
 	// finally print all scanned ports

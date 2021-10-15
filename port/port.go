@@ -34,7 +34,7 @@ func ScanPort(protocol string, port int) ScanResult {
 	return result
 }
 
-func TCP1024Scan() []ScanResult {
+func TCPLScan() []ScanResult {
 
 	var results []ScanResult
 
@@ -46,7 +46,7 @@ func TCP1024Scan() []ScanResult {
 
 }
 
-func UDP1024Scan() []ScanResult {
+func UDPLScan() []ScanResult {
 
 	var results []ScanResult
 
@@ -58,7 +58,30 @@ func UDP1024Scan() []ScanResult {
 
 }
 
-func UDP49152Scan() []ScanResult {
+func UDPWScan() []ScanResult {
+
+	var results []ScanResult
+
+	for i := 1025; i <= 49152; i++ {
+		results = append(results, ScanPort("udp", i))
+	}
+
+	return results
+
+}
+
+func TCPWScan() []ScanResult {
+
+	var results []ScanResult
+
+	for i := 1025; i <= 49152; i++ {
+		results = append(results, ScanPort("tcp", i))
+	}
+
+	return results
+}
+
+func UDPFullScan() []ScanResult {
 
 	var results []ScanResult
 
@@ -67,10 +90,9 @@ func UDP49152Scan() []ScanResult {
 	}
 
 	return results
-
 }
 
-func TCP49152Scan() []ScanResult {
+func TCPFullScan() []ScanResult {
 
 	var results []ScanResult
 
