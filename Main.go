@@ -1,4 +1,4 @@
-package aurelias
+package main
 
 import (
 	"fmt"
