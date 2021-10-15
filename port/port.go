@@ -11,6 +11,7 @@ type ScanResult struct {
 	Port    int
 	State   bool
 	Address string
+	Time    time.Duration
 }
 
 // Scanning functions
@@ -56,4 +57,27 @@ func UDP1024Scan() []ScanResult {
 
 	return results
 
+}
+
+func UDP49152Scan() []ScanResult {
+
+	var results []ScanResult
+
+	for i := 0; i <= 49152; i++ {
+		results = append(results, ScanPort("udp", i))
+	}
+
+	return results
+
+}
+
+func TCP49152Scan() []ScanResult {
+
+	var results []ScanResult
+
+	for i := 0; i <= 49152; i++ {
+		results = append(results, ScanPort("tcp", i))
+	}
+
+	return results
 }

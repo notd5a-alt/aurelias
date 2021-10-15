@@ -6,9 +6,8 @@ import (
 	"github.com/notd5a-alt/aurelias/port"
 )
 
-func Init() {
-	fmt.Println("Aurelias Network Scanning tool")
-	fmt.Println("Scanning Ports")
+func Init() { // Prints inital ui etc for selecting modes etc.
+	// ui below
 
 }
 
@@ -31,9 +30,10 @@ func PrintScannedPorts(data []string) {
 }
 
 func main() {
-	Init()
+	Init()                    // any initial print functions, ui, etc
 	tcp := port.TCP1024Scan() // TCP scan
 	udp := port.UDP1024Scan() // UDP scan
+
 	total_scan := append(tcp, udp...)
 	var results []string
 
