@@ -11,7 +11,6 @@ type ScanResult struct {
 	Port    int
 	State   bool
 	Address string
-	Time    time.Duration
 }
 
 // Scanning functions
