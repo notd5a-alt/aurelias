@@ -34,12 +34,24 @@ func ScanPort(protocol string, port int) ScanResult {
 	return result
 }
 
-func TCPScan(hostname string) []ScanResult {
+func TCP1024Scan() []ScanResult {
 
 	var results []ScanResult
 
-	for i := 0; i < 1024; i++ { // scans all ports from 0 -> 1024 i.e. :1 -> :2 -> :3 -> :4 and so on till :1024
+	for i := 0; i <= 1024; i++ { // scans all ports from 0 -> 1024 i.e. :1 -> :2 -> :3 -> :4 and so on till :1024
 		results = append(results, ScanPort("tcp", i))
+	}
+
+	return results
+
+}
+
+func UDP1024Scan() []ScanResult {
+
+	var results []ScanResult
+
+	for i := 0; i <= 1024; i++ {
+		results = append(results, ScanPort("udp", i))
 	}
 
 	return results
